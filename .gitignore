@@ -1,0 +1,10 @@
+test/javasource/*
+!test/javasource/amazons3connector/
+test/deployment/
+test/.classpath
+test/.project
+test/theme/
+*.launch
+*.tmp
+*.lock
+.idea/
