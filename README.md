@@ -30,10 +30,10 @@ Usage can be viewed at the associated GitHub testing project at [https://github.
 
 This module provides the Amazon SDK for Java libraries. Those required are:
 
-aws-java-sdk-1.9.39.jar
-commons-logging-1.1.jar
-httpclient-4.3.jar
-httpcore-4.3.jar
-jackson-annotations-2.3.0.jar
-jackson-core-2.3.2.jar
-jackson-databind-2.3.2.jar
+* aws-java-sdk-1.9.39.jar
+* commons-logging-1.1.jar
+* httpclient-4.3.jar
+* httpcore-4.3.jar
+* jackson-annotations-2.3.0.jar
+* jackson-core-2.3.2.jar
+* jackson-databind-2.3.2.jar
