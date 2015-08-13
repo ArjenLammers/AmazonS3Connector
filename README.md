@@ -12,9 +12,11 @@ Use the connector to integrate with S3 to interact with S3 objects in your appli
  
 ## Using the connector
 
-To use the connector, use the microflows that allow you to list the buckets, list the objects, download objects, and upload a S3FileDocument.
+To use the connector, use the microflows that allow you to list the buckets, list the objects, download objects, and upload a S3FileDocument. 
 
-Note that when interacting with S3 objects, the attribute 'key' is the object name, corresponding to the S3FileDocument attribute 'Name'.
+## Finding Specific Objects
+
+Amazon S3 uses the Object's Key as the unique identifier. This means that if you want to keep a reference to a specific object, you should use the S3SummaryObject.Key attribute. The Key includes all prefixes, similar to a UNC path to a file.
 
 Example flow:
 

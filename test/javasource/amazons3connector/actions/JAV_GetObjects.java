@@ -9,10 +9,10 @@
 
 package amazons3connector.actions;
 
-import java.util.ArrayList;
-import java.util.List;
 import amazons3connector.AmazonHelper;
+import amazons3connector.proxies.S3CommonPrefix;
 import amazons3connector.proxies.S3SummaryObject;
+import amazons3connector.proxies.constants.Constants;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
@@ -24,47 +24,87 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 /**
  * 
  */
-public class JAV_GetObjects extends CustomJavaAction<java.util.List<IMendixObject>>
+public class JAV_GetObjects extends CustomJavaAction<Boolean>
 {
 	private IMendixObject __AwsConfigParameter1;
 	private amazons3connector.proxies.AwsConfig AwsConfigParameter1;
 	private IMendixObject __S3BucketParameter1;
 	private amazons3connector.proxies.S3Bucket S3BucketParameter1;
+	private java.util.List<IMendixObject> __S3Objects;
+	private java.util.List<amazons3connector.proxies.S3SummaryObject> S3Objects;
+	private java.util.List<IMendixObject> __S3CommonPrefixes;
+	private java.util.List<amazons3connector.proxies.S3CommonPrefix> S3CommonPrefixes;
+	private IMendixObject __S3CommonPrefixParameter1;
+	private amazons3connector.proxies.S3CommonPrefix S3CommonPrefixParameter1;
 
-	public JAV_GetObjects(IContext context, IMendixObject AwsConfigParameter1, IMendixObject S3BucketParameter1)
+	public JAV_GetObjects(IContext context, IMendixObject AwsConfigParameter1, IMendixObject S3BucketParameter1, java.util.List<IMendixObject> S3Objects, java.util.List<IMendixObject> S3CommonPrefixes, IMendixObject S3CommonPrefixParameter1)
 	{
 		super(context);
 		this.__AwsConfigParameter1 = AwsConfigParameter1;
 		this.__S3BucketParameter1 = S3BucketParameter1;
+		this.__S3Objects = S3Objects;
+		this.__S3CommonPrefixes = S3CommonPrefixes;
+		this.__S3CommonPrefixParameter1 = S3CommonPrefixParameter1;
 	}
 
 	@Override
-	public java.util.List<IMendixObject> executeAction() throws Exception
+	public Boolean executeAction() throws Exception
 	{
 		this.AwsConfigParameter1 = __AwsConfigParameter1 == null ? null : amazons3connector.proxies.AwsConfig.initialize(getContext(), __AwsConfigParameter1);
 
 		this.S3BucketParameter1 = __S3BucketParameter1 == null ? null : amazons3connector.proxies.S3Bucket.initialize(getContext(), __S3BucketParameter1);
 
+		this.S3Objects = new java.util.ArrayList<amazons3connector.proxies.S3SummaryObject>();
+		if (__S3Objects != null)
+			for (IMendixObject __S3ObjectsElement : __S3Objects)
+				this.S3Objects.add(amazons3connector.proxies.S3SummaryObject.initialize(getContext(), __S3ObjectsElement));
+
+		this.S3CommonPrefixes = new java.util.ArrayList<amazons3connector.proxies.S3CommonPrefix>();
+		if (__S3CommonPrefixes != null)
+			for (IMendixObject __S3CommonPrefixesElement : __S3CommonPrefixes)
+				this.S3CommonPrefixes.add(amazons3connector.proxies.S3CommonPrefix.initialize(getContext(), __S3CommonPrefixesElement));
+
+		this.S3CommonPrefixParameter1 = __S3CommonPrefixParameter1 == null ? null : amazons3connector.proxies.S3CommonPrefix.initialize(getContext(), __S3CommonPrefixParameter1);
+
 		// BEGIN USER CODE
 		AmazonS3 s3client = AmazonHelper.GetS3Client(AwsConfigParameter1);
 
-		List<IMendixObject> s3objects = new ArrayList<IMendixObject>();
-		
 		ListObjectsRequest listObjectsRequest = new ListObjectsRequest()
-			.withBucketName(S3BucketParameter1.getName());
+			.withBucketName(S3BucketParameter1.getName())
+			.withDelimiter(Constants.getHierarchyDelimiter());
+		
+		if (S3CommonPrefixParameter1 != null) {
+			listObjectsRequest.withPrefix(S3CommonPrefixParameter1.getPrefix());
+			
+			AmazonHelper.enhancePrefix(S3CommonPrefixParameter1);
+		}
 		ObjectListing objectListing;
 		
 		do {
 			objectListing = s3client.listObjects(listObjectsRequest);
 			for (S3ObjectSummary os : objectListing.getObjectSummaries()) {
+				// create the objects
 				S3SummaryObject o = new S3SummaryObject(getContext());
 				o.setKey(os.getKey());
-				s3objects.add(o.getMendixObject());
+				o.setS3Object_S3Bucket(S3BucketParameter1);
+				S3Objects.add(o);
+				
+				AmazonHelper.enhanceObject(o);
 			}
+			for (String commonPrefix : objectListing.getCommonPrefixes()) {
+				// create the common prefixes
+				S3CommonPrefix p = new S3CommonPrefix(getContext());
+				p.setPrefix(commonPrefix);
+				p.setS3CommonPrefix_S3Bucket(S3BucketParameter1);
+				S3CommonPrefixes.add(p);
+				
+				AmazonHelper.enhancePrefix(p);
+			}
+			
 			listObjectsRequest.setMarker(objectListing.getNextMarker());
 		} while (objectListing.isTruncated());
 
-		return s3objects;
+		return true;
 		// END USER CODE
 	}
 

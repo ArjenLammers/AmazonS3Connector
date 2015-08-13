@@ -16,6 +16,58 @@ public class Microflows
 {
 	// These are the microflows for the AmazonS3Connector module
 
+	public static amazons3connector.proxies.S3CommonPrefix dS_CurrentPrefix(IContext context, amazons3connector.proxies.S3Bucket _s3Bucket)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("S3Bucket", _s3Bucket == null ? null : _s3Bucket.getMendixObject());
+			IMendixObject result = (IMendixObject)Core.execute(context, "AmazonS3Connector.DS_CurrentPrefix", params);
+			return result == null ? null : amazons3connector.proxies.S3CommonPrefix.initialize(context, result);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static java.util.List<amazons3connector.proxies.S3FileDocument> dS_FileDocuments(IContext context, amazons3connector.proxies.S3Bucket _s3Bucket)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("S3Bucket", _s3Bucket == null ? null : _s3Bucket.getMendixObject());
+			java.util.List<IMendixObject> objs = Core.execute(context, "AmazonS3Connector.DS_FileDocuments", params);
+			java.util.List<amazons3connector.proxies.S3FileDocument> result = null;
+			if (objs != null)
+			{
+				result = new java.util.ArrayList<amazons3connector.proxies.S3FileDocument>();
+				for (IMendixObject obj : objs)
+					result.add(amazons3connector.proxies.S3FileDocument.initialize(context, obj));
+			}
+			return result;
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static amazons3connector.proxies.S3Bucket dS_GetBucket(IContext context, String _s3BucketName)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("S3BucketName", _s3BucketName);
+			IMendixObject result = (IMendixObject)Core.execute(context, "AmazonS3Connector.DS_GetBucket", params);
+			return result == null ? null : amazons3connector.proxies.S3Bucket.initialize(context, result);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
 	public static java.util.List<amazons3connector.proxies.S3Bucket> dS_GetBuckets(IContext context)
 	{
 		try
@@ -51,6 +103,22 @@ public class Microflows
 		}
 	}
 
+	public static amazons3connector.proxies.S3SummaryObject dS_GetObject(IContext context, amazons3connector.proxies.S3Bucket _s3Bucket, String _s3ObjectKey)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("S3Bucket", _s3Bucket == null ? null : _s3Bucket.getMendixObject());
+			params.put("S3ObjectKey", _s3ObjectKey);
+			IMendixObject result = (IMendixObject)Core.execute(context, "AmazonS3Connector.DS_GetObject", params);
+			return result == null ? null : amazons3connector.proxies.S3SummaryObject.initialize(context, result);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
 	public static system.proxies.FileDocument dS_GetObject_FileContent(IContext context, amazons3connector.proxies.S3SummaryObject _s3SummaryObject, amazons3connector.proxies.S3Bucket _s3Bucket)
 	{
 		try
@@ -67,21 +135,72 @@ public class Microflows
 		}
 	}
 
-	public static java.util.List<amazons3connector.proxies.S3SummaryObject> dS_GetObjects(IContext context, amazons3connector.proxies.S3Bucket _s3Bucket)
+	public static amazons3connector.proxies.S3Bucket dS_GetObjects(IContext context, amazons3connector.proxies.S3Bucket _s3Bucket, amazons3connector.proxies.S3CommonPrefix _currentPrefix)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("S3Bucket", _s3Bucket == null ? null : _s3Bucket.getMendixObject());
-			java.util.List<IMendixObject> objs = Core.execute(context, "AmazonS3Connector.DS_GetObjects", params);
-			java.util.List<amazons3connector.proxies.S3SummaryObject> result = null;
-			if (objs != null)
-			{
-				result = new java.util.ArrayList<amazons3connector.proxies.S3SummaryObject>();
-				for (IMendixObject obj : objs)
-					result.add(amazons3connector.proxies.S3SummaryObject.initialize(context, obj));
-			}
-			return result;
+			params.put("CurrentPrefix", _currentPrefix == null ? null : _currentPrefix.getMendixObject());
+			IMendixObject result = (IMendixObject)Core.execute(context, "AmazonS3Connector.DS_GetObjects", params);
+			return result == null ? null : amazons3connector.proxies.S3Bucket.initialize(context, result);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static amazons3connector.proxies.Search dS_Search(IContext context)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			IMendixObject result = (IMendixObject)Core.execute(context, "AmazonS3Connector.DS_Search", params);
+			return result == null ? null : amazons3connector.proxies.Search.initialize(context, result);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static void iVK_AddFileDocument(IContext context, amazons3connector.proxies.S3Bucket _s3Bucket)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("S3Bucket", _s3Bucket == null ? null : _s3Bucket.getMendixObject());
+			Core.execute(context, "AmazonS3Connector.IVK_AddFileDocument", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static void iVK_DeleteFileDocument(IContext context, amazons3connector.proxies.S3FileDocument _s3FileDocument)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("S3FileDocument", _s3FileDocument == null ? null : _s3FileDocument.getMendixObject());
+			Core.execute(context, "AmazonS3Connector.IVK_DeleteFileDocument", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static void iVK_DownloadFileContents(IContext context, amazons3connector.proxies.S3SummaryObject _s3SummaryObject, amazons3connector.proxies.S3Bucket _s3Bucket)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("S3SummaryObject", _s3SummaryObject == null ? null : _s3SummaryObject.getMendixObject());
+			params.put("S3Bucket", _s3Bucket == null ? null : _s3Bucket.getMendixObject());
+			Core.execute(context, "AmazonS3Connector.IVK_DownloadFileContents", params);
 		}
 		catch (CoreException e)
 		{
@@ -97,6 +216,132 @@ public class Microflows
 			params.put("S3Bucket", _s3Bucket == null ? null : _s3Bucket.getMendixObject());
 			params.put("S3FileDocument", _s3FileDocument == null ? null : _s3FileDocument.getMendixObject());
 			Core.execute(context, "AmazonS3Connector.IVK_PutObject", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static void iVK_SearchForBucket(IContext context, amazons3connector.proxies.Search _search)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("Search", _search == null ? null : _search.getMendixObject());
+			Core.execute(context, "AmazonS3Connector.IVK_SearchForBucket", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static void iVK_SearchForObject(IContext context, amazons3connector.proxies.Search _search)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("Search", _search == null ? null : _search.getMendixObject());
+			Core.execute(context, "AmazonS3Connector.IVK_SearchForObject", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static void iVK_ShowBuckets(IContext context)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			Core.execute(context, "AmazonS3Connector.IVK_ShowBuckets", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static void iVK_ShowFileUpload(IContext context, amazons3connector.proxies.S3Bucket _s3Bucket)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("S3Bucket", _s3Bucket == null ? null : _s3Bucket.getMendixObject());
+			Core.execute(context, "AmazonS3Connector.IVK_ShowFileUpload", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static void iVK_ShowObjects(IContext context, amazons3connector.proxies.S3Bucket _s3Bucket)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("S3Bucket", _s3Bucket == null ? null : _s3Bucket.getMendixObject());
+			Core.execute(context, "AmazonS3Connector.IVK_ShowObjects", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static void iVK_ShowParentPrefix(IContext context, amazons3connector.proxies.S3CommonPrefix _parentPrefix)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("ParentPrefix", _parentPrefix == null ? null : _parentPrefix.getMendixObject());
+			Core.execute(context, "AmazonS3Connector.IVK_ShowParentPrefix", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static void iVK_ShowPrefix(IContext context, amazons3connector.proxies.S3CommonPrefix _s3CommonPrefix, amazons3connector.proxies.S3Bucket _s3Bucket)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("S3CommonPrefix", _s3CommonPrefix == null ? null : _s3CommonPrefix.getMendixObject());
+			params.put("S3Bucket", _s3Bucket == null ? null : _s3Bucket.getMendixObject());
+			Core.execute(context, "AmazonS3Connector.IVK_ShowPrefix", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static boolean iVK_UploadFiles(IContext context, amazons3connector.proxies.S3CommonPrefix _s3CommonPrefix)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("S3CommonPrefix", _s3CommonPrefix == null ? null : _s3CommonPrefix.getMendixObject());
+			return (Boolean)Core.execute(context, "AmazonS3Connector.IVK_UploadFiles", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static void oCh_UpdateConfig(IContext context, amazons3connector.proxies.AwsConfig _awsConfig)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("AwsConfig", _awsConfig == null ? null : _awsConfig.getMendixObject());
+			Core.execute(context, "AmazonS3Connector.OCh_UpdateConfig", params);
 		}
 		catch (CoreException e)
 		{

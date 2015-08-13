@@ -11,7 +11,7 @@ import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 /**
- * 
+ * Represents the file contents of the S3 object
  */
 public class S3FileDocument extends system.proxies.FileDocument
 {

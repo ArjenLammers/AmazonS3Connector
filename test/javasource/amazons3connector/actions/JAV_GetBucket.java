@@ -9,10 +9,8 @@
 
 package amazons3connector.actions;
 
-import java.util.ArrayList;
 import java.util.List;
 import amazons3connector.AmazonHelper;
-import amazons3connector.proxies.S3Bucket;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.Bucket;
 import com.mendix.systemwideinterfaces.core.IContext;
@@ -22,33 +20,37 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 /**
  * 
  */
-public class JAV_GetBuckets extends CustomJavaAction<java.util.List<IMendixObject>>
+public class JAV_GetBucket extends CustomJavaAction<IMendixObject>
 {
 	private IMendixObject __AwsConfigParameter1;
 	private amazons3connector.proxies.AwsConfig AwsConfigParameter1;
+	private String S3BucketName;
 
-	public JAV_GetBuckets(IContext context, IMendixObject AwsConfigParameter1)
+	public JAV_GetBucket(IContext context, IMendixObject AwsConfigParameter1, String S3BucketName)
 	{
 		super(context);
 		this.__AwsConfigParameter1 = AwsConfigParameter1;
+		this.S3BucketName = S3BucketName;
 	}
 
 	@Override
-	public java.util.List<IMendixObject> executeAction() throws Exception
+	public IMendixObject executeAction() throws Exception
 	{
 		this.AwsConfigParameter1 = __AwsConfigParameter1 == null ? null : amazons3connector.proxies.AwsConfig.initialize(getContext(), __AwsConfigParameter1);
 
 		// BEGIN USER CODE
 		AmazonS3 s3client = AmazonHelper.GetS3Client(AwsConfigParameter1);
 		
+		// loop through all the buckets until we find one that matches
 		List<Bucket> buckets = s3client.listBuckets();
-		List<IMendixObject> s3buckets = new ArrayList<IMendixObject>();
 		
 		for(Bucket bucket : buckets) {
-			s3buckets.add(createBucket(bucket, getContext()).getMendixObject());
+			if (bucket.getName().equals(S3BucketName)) {
+				return JAV_GetBuckets.createBucket(bucket, getContext()).getMendixObject();
+			}
 		}
 		
-		return s3buckets;
+		return null;
 		// END USER CODE
 	}
 
@@ -58,15 +60,9 @@ public class JAV_GetBuckets extends CustomJavaAction<java.util.List<IMendixObjec
 	@Override
 	public String toString()
 	{
-		return "JAV_GetBuckets";
+		return "JAV_GetBucket";
 	}
 
 	// BEGIN EXTRA CODE
-	public static S3Bucket createBucket(Bucket b, IContext c)
-	{
-		S3Bucket s3b = new S3Bucket(c);
-		s3b.setName(b.getName());
-		return s3b;
-	}
 	// END EXTRA CODE
 }

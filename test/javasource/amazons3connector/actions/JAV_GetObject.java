@@ -9,12 +9,10 @@
 
 package amazons3connector.actions;
 
-import java.util.ArrayList;
-import java.util.List;
 import amazons3connector.AmazonHelper;
-import amazons3connector.proxies.S3Bucket;
+import amazons3connector.proxies.S3SummaryObject;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.Bucket;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
@@ -22,33 +20,46 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 /**
  * 
  */
-public class JAV_GetBuckets extends CustomJavaAction<java.util.List<IMendixObject>>
+public class JAV_GetObject extends CustomJavaAction<IMendixObject>
 {
 	private IMendixObject __AwsConfigParameter1;
 	private amazons3connector.proxies.AwsConfig AwsConfigParameter1;
+	private IMendixObject __S3BucketParameter1;
+	private amazons3connector.proxies.S3Bucket S3BucketParameter1;
+	private String S3ObjectKey;
 
-	public JAV_GetBuckets(IContext context, IMendixObject AwsConfigParameter1)
+	public JAV_GetObject(IContext context, IMendixObject AwsConfigParameter1, IMendixObject S3BucketParameter1, String S3ObjectKey)
 	{
 		super(context);
 		this.__AwsConfigParameter1 = AwsConfigParameter1;
+		this.__S3BucketParameter1 = S3BucketParameter1;
+		this.S3ObjectKey = S3ObjectKey;
 	}
 
 	@Override
-	public java.util.List<IMendixObject> executeAction() throws Exception
+	public IMendixObject executeAction() throws Exception
 	{
 		this.AwsConfigParameter1 = __AwsConfigParameter1 == null ? null : amazons3connector.proxies.AwsConfig.initialize(getContext(), __AwsConfigParameter1);
 
+		this.S3BucketParameter1 = __S3BucketParameter1 == null ? null : amazons3connector.proxies.S3Bucket.initialize(getContext(), __S3BucketParameter1);
+
 		// BEGIN USER CODE
 		AmazonS3 s3client = AmazonHelper.GetS3Client(AwsConfigParameter1);
+
+		ObjectMetadata metadata = s3client.getObjectMetadata(S3BucketParameter1.getName(), S3ObjectKey);
 		
-		List<Bucket> buckets = s3client.listBuckets();
-		List<IMendixObject> s3buckets = new ArrayList<IMendixObject>();
-		
-		for(Bucket bucket : buckets) {
-			s3buckets.add(createBucket(bucket, getContext()).getMendixObject());
+		if (metadata != null) {
+				// create the objects
+			S3SummaryObject o = new S3SummaryObject(getContext());
+			o.setKey(S3ObjectKey);
+			o.setS3Object_S3Bucket(S3BucketParameter1);
+			
+			AmazonHelper.enhanceObject(o);
+				
+			return o.getMendixObject();
 		}
 		
-		return s3buckets;
+		return null;
 		// END USER CODE
 	}
 
@@ -58,15 +69,9 @@ public class JAV_GetBuckets extends CustomJavaAction<java.util.List<IMendixObjec
 	@Override
 	public String toString()
 	{
-		return "JAV_GetBuckets";
+		return "JAV_GetObject";
 	}
 
 	// BEGIN EXTRA CODE
-	public static S3Bucket createBucket(Bucket b, IContext c)
-	{
-		S3Bucket s3b = new S3Bucket(c);
-		s3b.setName(b.getName());
-		return s3b;
-	}
 	// END EXTRA CODE
 }

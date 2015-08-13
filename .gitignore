@@ -1,5 +1,6 @@
 test/javasource/*
 !test/javasource/amazons3connector/
+!test/javasource/testsuite/
 test/deployment/
 test/.classpath
 test/.project

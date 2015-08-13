@@ -11,7 +11,7 @@ import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 /**
- * 
+ * The credentials for connection to S3
  */
 public class AwsConfig
 {

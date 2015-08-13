@@ -11,25 +11,26 @@ import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 /**
- * Represents the S3 Bucket - No intent to persist
+ * 
  */
-public class S3Bucket
+public class Search
 {
-	private final IMendixObject s3BucketMendixObject;
+	private final IMendixObject searchMendixObject;
 
 	private final IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "AmazonS3Connector.S3Bucket";
+	public static final String entityName = "AmazonS3Connector.Search";
 
 	/**
 	 * Enum describing members of this entity
 	 */
 	public enum MemberNames
 	{
-		Name("Name");
+		BucketName("BucketName"),
+		ObjectKey("ObjectKey");
 
 		private String metaName;
 
@@ -45,52 +46,44 @@ public class S3Bucket
 		}
 	}
 
-	public S3Bucket(IContext context)
+	public Search(IContext context)
 	{
-		this(context, Core.instantiate(context, "AmazonS3Connector.S3Bucket"));
+		this(context, Core.instantiate(context, "AmazonS3Connector.Search"));
 	}
 
-	protected S3Bucket(IContext context, IMendixObject s3BucketMendixObject)
+	protected Search(IContext context, IMendixObject searchMendixObject)
 	{
-		if (s3BucketMendixObject == null)
+		if (searchMendixObject == null)
 			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("AmazonS3Connector.S3Bucket", s3BucketMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a AmazonS3Connector.S3Bucket");
+		if (!Core.isSubClassOf("AmazonS3Connector.Search", searchMendixObject.getType()))
+			throw new IllegalArgumentException("The given object is not a AmazonS3Connector.Search");
 
-		this.s3BucketMendixObject = s3BucketMendixObject;
+		this.searchMendixObject = searchMendixObject;
 		this.context = context;
 	}
 
 	/**
-	 * @deprecated Use 'S3Bucket.load(IContext, IMendixIdentifier)' instead.
+	 * @deprecated Use 'Search.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static amazons3connector.proxies.S3Bucket initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static amazons3connector.proxies.Search initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
 	{
-		return amazons3connector.proxies.S3Bucket.load(context, mendixIdentifier);
+		return amazons3connector.proxies.Search.load(context, mendixIdentifier);
 	}
 
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static amazons3connector.proxies.S3Bucket initialize(IContext context, IMendixObject mendixObject)
+	public static amazons3connector.proxies.Search initialize(IContext context, IMendixObject mendixObject)
 	{
-		return new amazons3connector.proxies.S3Bucket(context, mendixObject);
+		return new amazons3connector.proxies.Search(context, mendixObject);
 	}
 
-	public static amazons3connector.proxies.S3Bucket load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static amazons3connector.proxies.Search load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
 	{
 		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
-		return amazons3connector.proxies.S3Bucket.initialize(context, mendixObject);
-	}
-
-	public static java.util.List<amazons3connector.proxies.S3Bucket> load(IContext context, String xpathConstraint) throws CoreException
-	{
-		java.util.List<amazons3connector.proxies.S3Bucket> result = new java.util.ArrayList<amazons3connector.proxies.S3Bucket>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//AmazonS3Connector.S3Bucket" + xpathConstraint))
-			result.add(amazons3connector.proxies.S3Bucket.initialize(context, obj));
-		return result;
+		return amazons3connector.proxies.Search.initialize(context, mendixObject);
 	}
 
 	/**
@@ -125,39 +118,75 @@ public class S3Bucket
 		Core.delete(context, getMendixObject());
 	}
 	/**
-	 * @return value of Name
+	 * @return value of BucketName
 	 */
-	public final String getName()
+	public final String getBucketName()
 	{
-		return getName(getContext());
+		return getBucketName(getContext());
 	}
 
 	/**
 	 * @param context
-	 * @return value of Name
+	 * @return value of BucketName
 	 */
-	public final String getName(IContext context)
+	public final String getBucketName(IContext context)
 	{
-		return (String) getMendixObject().getValue(context, MemberNames.Name.toString());
+		return (String) getMendixObject().getValue(context, MemberNames.BucketName.toString());
 	}
 
 	/**
-	 * Set value of Name
-	 * @param name
+	 * Set value of BucketName
+	 * @param bucketname
 	 */
-	public final void setName(String name)
+	public final void setBucketName(String bucketname)
 	{
-		setName(getContext(), name);
+		setBucketName(getContext(), bucketname);
 	}
 
 	/**
-	 * Set value of Name
+	 * Set value of BucketName
 	 * @param context
-	 * @param name
+	 * @param bucketname
 	 */
-	public final void setName(IContext context, String name)
+	public final void setBucketName(IContext context, String bucketname)
 	{
-		getMendixObject().setValue(context, MemberNames.Name.toString(), name);
+		getMendixObject().setValue(context, MemberNames.BucketName.toString(), bucketname);
+	}
+
+	/**
+	 * @return value of ObjectKey
+	 */
+	public final String getObjectKey()
+	{
+		return getObjectKey(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of ObjectKey
+	 */
+	public final String getObjectKey(IContext context)
+	{
+		return (String) getMendixObject().getValue(context, MemberNames.ObjectKey.toString());
+	}
+
+	/**
+	 * Set value of ObjectKey
+	 * @param objectkey
+	 */
+	public final void setObjectKey(String objectkey)
+	{
+		setObjectKey(getContext(), objectkey);
+	}
+
+	/**
+	 * Set value of ObjectKey
+	 * @param context
+	 * @param objectkey
+	 */
+	public final void setObjectKey(IContext context, String objectkey)
+	{
+		getMendixObject().setValue(context, MemberNames.ObjectKey.toString(), objectkey);
 	}
 
 	/**
@@ -165,7 +194,7 @@ public class S3Bucket
 	 */
 	public final IMendixObject getMendixObject()
 	{
-		return s3BucketMendixObject;
+		return searchMendixObject;
 	}
 
 	/**
@@ -184,7 +213,7 @@ public class S3Bucket
 
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
-			final amazons3connector.proxies.S3Bucket that = (amazons3connector.proxies.S3Bucket) obj;
+			final amazons3connector.proxies.Search that = (amazons3connector.proxies.Search) obj;
 			return getMendixObject().equals(that.getMendixObject());
 		}
 		return false;
@@ -201,7 +230,7 @@ public class S3Bucket
 	 */
 	public static String getType()
 	{
-		return "AmazonS3Connector.S3Bucket";
+		return "AmazonS3Connector.Search";
 	}
 
 	/**

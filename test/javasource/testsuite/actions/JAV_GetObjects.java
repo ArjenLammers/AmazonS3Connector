@@ -7,14 +7,16 @@
 // Other code you write will be lost the next time you deploy the project.
 // Special characters, e.g., é, ö, à, etc. are supported in comments.
 
-package amazons3connector.actions;
+package testsuite.actions;
 
-import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import amazons3connector.AmazonHelper;
+import amazons3connector.proxies.S3SummaryObject;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
-import com.mendix.core.Core;
+import com.amazonaws.services.s3.model.ListObjectsRequest;
+import com.amazonaws.services.s3.model.ObjectListing;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
@@ -22,56 +24,51 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 /**
  * 
  */
-public class JAV_GetObject_FileContent extends CustomJavaAction<Boolean>
+public class JAV_GetObjects extends CustomJavaAction<java.util.List<IMendixObject>>
 {
 	private IMendixObject __AwsConfigParameter1;
 	private amazons3connector.proxies.AwsConfig AwsConfigParameter1;
 	private IMendixObject __S3BucketParameter1;
 	private amazons3connector.proxies.S3Bucket S3BucketParameter1;
-	private IMendixObject __S3Object;
-	private amazons3connector.proxies.S3SummaryObject S3Object;
-	private IMendixObject __OutputS3FileDocument;
-	private amazons3connector.proxies.S3FileDocument OutputS3FileDocument;
 
-	public JAV_GetObject_FileContent(IContext context, IMendixObject AwsConfigParameter1, IMendixObject S3BucketParameter1, IMendixObject S3Object, IMendixObject OutputS3FileDocument)
+	public JAV_GetObjects(IContext context, IMendixObject AwsConfigParameter1, IMendixObject S3BucketParameter1)
 	{
 		super(context);
 		this.__AwsConfigParameter1 = AwsConfigParameter1;
 		this.__S3BucketParameter1 = S3BucketParameter1;
-		this.__S3Object = S3Object;
-		this.__OutputS3FileDocument = OutputS3FileDocument;
 	}
 
 	@Override
-	public Boolean executeAction() throws Exception
+	public java.util.List<IMendixObject> executeAction() throws Exception
 	{
 		this.AwsConfigParameter1 = __AwsConfigParameter1 == null ? null : amazons3connector.proxies.AwsConfig.initialize(getContext(), __AwsConfigParameter1);
 
 		this.S3BucketParameter1 = __S3BucketParameter1 == null ? null : amazons3connector.proxies.S3Bucket.initialize(getContext(), __S3BucketParameter1);
 
-		this.S3Object = __S3Object == null ? null : amazons3connector.proxies.S3SummaryObject.initialize(getContext(), __S3Object);
-
-		this.OutputS3FileDocument = __OutputS3FileDocument == null ? null : amazons3connector.proxies.S3FileDocument.initialize(getContext(), __OutputS3FileDocument);
-
 		// BEGIN USER CODE
 		AmazonS3 s3client = AmazonHelper.GetS3Client(AwsConfigParameter1);
+
+		List<IMendixObject> s3objects = new ArrayList<IMendixObject>();
 		
-		S3Object object = null;
-		try
-		{
-			object = s3client.getObject(
-					new GetObjectRequest(S3BucketParameter1.getName(), S3Object.getKey()));
-			InputStream objectData = object.getObjectContent();
+		ListObjectsRequest listObjectsRequest = new ListObjectsRequest()
+			.withBucketName(S3BucketParameter1.getName());
+		ObjectListing objectListing;
 		
-			Core.storeFileDocumentContent(getContext(), OutputS3FileDocument.getMendixObject(), objectData);
-		}
-		finally
-		{
-			if (object != null)
-				object.close();
-		}
-		
-		return true;
+		do {
+			objectListing = s3client.listObjects(listObjectsRequest);
+			for (S3ObjectSummary os : objectListing.getObjectSummaries()) {
+				// create the objects
+				S3SummaryObject o = new S3SummaryObject(getContext());
+				o.setKey(os.getKey());
+				o.setS3Object_S3Bucket(S3BucketParameter1);
+				s3objects.add(o.getMendixObject());
+				
+				AmazonHelper.enhanceObject(o);
+			}
+			listObjectsRequest.setMarker(objectListing.getNextMarker());
+		} while (objectListing.isTruncated());
+
+		return s3objects;
 		// END USER CODE
 	}
 
@@ -81,7 +78,7 @@ public class JAV_GetObject_FileContent extends CustomJavaAction<Boolean>
 	@Override
 	public String toString()
 	{
-		return "JAV_GetObject_FileContent";
+		return "JAV_GetObjects";
 	}
 
 	// BEGIN EXTRA CODE

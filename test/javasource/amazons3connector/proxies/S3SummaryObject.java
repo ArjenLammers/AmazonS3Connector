@@ -11,7 +11,7 @@ import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 /**
- * 
+ * Represents the file metadata as stored in S3
  */
 public class S3SummaryObject
 {
@@ -30,6 +30,8 @@ public class S3SummaryObject
 	public enum MemberNames
 	{
 		Key("Key"),
+		FileName("FileName"),
+		FolderPath("FolderPath"),
 		S3Object_S3Bucket("AmazonS3Connector.S3Object_S3Bucket");
 
 		private String metaName;
@@ -151,6 +153,78 @@ public class S3SummaryObject
 	public final void setKey(IContext context, String key)
 	{
 		getMendixObject().setValue(context, MemberNames.Key.toString(), key);
+	}
+
+	/**
+	 * @return value of FileName
+	 */
+	public final String getFileName()
+	{
+		return getFileName(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of FileName
+	 */
+	public final String getFileName(IContext context)
+	{
+		return (String) getMendixObject().getValue(context, MemberNames.FileName.toString());
+	}
+
+	/**
+	 * Set value of FileName
+	 * @param filename
+	 */
+	public final void setFileName(String filename)
+	{
+		setFileName(getContext(), filename);
+	}
+
+	/**
+	 * Set value of FileName
+	 * @param context
+	 * @param filename
+	 */
+	public final void setFileName(IContext context, String filename)
+	{
+		getMendixObject().setValue(context, MemberNames.FileName.toString(), filename);
+	}
+
+	/**
+	 * @return value of FolderPath
+	 */
+	public final String getFolderPath()
+	{
+		return getFolderPath(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of FolderPath
+	 */
+	public final String getFolderPath(IContext context)
+	{
+		return (String) getMendixObject().getValue(context, MemberNames.FolderPath.toString());
+	}
+
+	/**
+	 * Set value of FolderPath
+	 * @param folderpath
+	 */
+	public final void setFolderPath(String folderpath)
+	{
+		setFolderPath(getContext(), folderpath);
+	}
+
+	/**
+	 * Set value of FolderPath
+	 * @param context
+	 * @param folderpath
+	 */
+	public final void setFolderPath(IContext context, String folderpath)
+	{
+		getMendixObject().setValue(context, MemberNames.FolderPath.toString(), folderpath);
 	}
 
 	/**
