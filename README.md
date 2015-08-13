@@ -14,19 +14,14 @@ Use the connector to integrate with S3 to interact with S3 objects in your appli
 
 To use the connector, use the microflows that allow you to list the buckets, list the objects, download objects, and upload a S3FileDocument. 
 
-## Finding Specific Objects
-
-Amazon S3 uses the Object's Key as the unique identifier. This means that if you want to keep a reference to a specific object, you should use the S3SummaryObject.Key attribute. The Key includes all prefixes, similar to a UNC path to a file.
-
 Example flow:
 
 1. Configure AccessKey and SecretKey in the Config page.
-2. Use DS_GetBuckets to list the available buckets.
-3. Use DS_GetObjects to list the available objects.
-4. Use DS_GetObject_FileContents to download a file.
-5. Use IVK_PutObject to upload a S3FileDocument, a generalization of the Mendix FileDocument.
+2. Integrate Buckets_Overview page to access objects by bucket.
 
-Usage can be viewed at the associated GitHub testing project at [https://github.com/chadevans/AmazonS3Connector](https://github.com/chadevans/AmazonS3Connector).
+## Finding Specific Objects
+
+Amazon S3 uses the Object's Key as the unique identifier. This means that if you want to keep a reference to a specific object, you should use the S3SummaryObject.Key attribute. The Key includes all prefixes, similar to a UNC path to a file.
 
 ## Dependencies
 
