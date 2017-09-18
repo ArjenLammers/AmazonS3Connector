@@ -9,15 +9,17 @@ For more information on contributing to this repository visit [Contributing to a
 ## Typical usage scenario
 
 Use the connector to integrate with S3 to interact with S3 objects in your application.
- 
+
 ## Using the connector
 
-To use the connector, use the microflows that allow you to list the buckets, list the objects, download objects, and upload a S3FileDocument. 
+To use the connector, use the microflows that allow you to list the buckets, list the objects, download objects, and upload a S3FileDocument.
 
 Example flow:
 
 1. Configure AccessKey and SecretKey in the Config page.
 2. Integrate Buckets_Overview page to access objects by bucket.
+
+Important Note: when running locally, the module will fail with a Java security error unless you disable the "emulate cloud security" option in your project settings. This module _does_ work on Mendix Cloud v4 without any additional modifications to the app or cloud node.
 
 ## Finding Specific Objects
 
@@ -34,3 +36,8 @@ This module provides the Amazon SDK for Java libraries. Those required are:
 * jackson-annotations-2.3.0.jar
 * jackson-core-2.3.2.jar
 * jackson-databind-2.3.2.jar
+
+As of Mendix 7, these libraries are also required. Previously they were provided by the platform:
+
+* joda-time.2.8.1
+* org.apache.commons.commons-lang3.3.4.jar

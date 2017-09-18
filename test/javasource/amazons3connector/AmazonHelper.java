@@ -1,6 +1,6 @@
 package amazons3connector;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import amazons3connector.proxies.AwsConfig;
 import amazons3connector.proxies.S3CommonPrefix;
