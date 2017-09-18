@@ -19,37 +19,37 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 public class JAV_GetObject extends CustomJavaAction<IMendixObject>
 {
-	private IMendixObject __AwsConfigParameter1;
-	private amazons3connector.proxies.AwsConfig AwsConfigParameter1;
-	private IMendixObject __S3BucketParameter1;
-	private amazons3connector.proxies.S3Bucket S3BucketParameter1;
+	private IMendixObject __AwsConfigParam;
+	private amazons3connector.proxies.AwsConfig AwsConfigParam;
+	private IMendixObject __S3BucketParam;
+	private amazons3connector.proxies.S3Bucket S3BucketParam;
 	private java.lang.String S3ObjectKey;
 
-	public JAV_GetObject(IContext context, IMendixObject AwsConfigParameter1, IMendixObject S3BucketParameter1, java.lang.String S3ObjectKey)
+	public JAV_GetObject(IContext context, IMendixObject AwsConfigParam, IMendixObject S3BucketParam, java.lang.String S3ObjectKey)
 	{
 		super(context);
-		this.__AwsConfigParameter1 = AwsConfigParameter1;
-		this.__S3BucketParameter1 = S3BucketParameter1;
+		this.__AwsConfigParam = AwsConfigParam;
+		this.__S3BucketParam = S3BucketParam;
 		this.S3ObjectKey = S3ObjectKey;
 	}
 
 	@Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.AwsConfigParameter1 = __AwsConfigParameter1 == null ? null : amazons3connector.proxies.AwsConfig.initialize(getContext(), __AwsConfigParameter1);
+		this.AwsConfigParam = __AwsConfigParam == null ? null : amazons3connector.proxies.AwsConfig.initialize(getContext(), __AwsConfigParam);
 
-		this.S3BucketParameter1 = __S3BucketParameter1 == null ? null : amazons3connector.proxies.S3Bucket.initialize(getContext(), __S3BucketParameter1);
+		this.S3BucketParam = __S3BucketParam == null ? null : amazons3connector.proxies.S3Bucket.initialize(getContext(), __S3BucketParam);
 
 		// BEGIN USER CODE
-		AmazonS3 s3client = AmazonHelper.GetS3Client(AwsConfigParameter1);
+		AmazonS3 s3client = AmazonHelper.GetS3Client(AwsConfigParam);
 
-		ObjectMetadata metadata = s3client.getObjectMetadata(S3BucketParameter1.getName(), S3ObjectKey);
+		ObjectMetadata metadata = s3client.getObjectMetadata(S3BucketParam.getName(), S3ObjectKey);
 		
 		if (metadata != null) {
 				// create the objects
 			S3SummaryObject o = new S3SummaryObject(getContext());
 			o.setKey(S3ObjectKey);
-			o.setS3Object_S3Bucket(S3BucketParameter1);
+			o.setS3Object_S3Bucket(S3BucketParam);
 			
 			AmazonHelper.enhanceObject(o);
 				

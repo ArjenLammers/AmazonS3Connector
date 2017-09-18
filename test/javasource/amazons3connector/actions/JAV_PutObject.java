@@ -21,41 +21,41 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 public class JAV_PutObject extends CustomJavaAction<java.lang.Boolean>
 {
-	private IMendixObject __AwsConfigParameter1;
-	private amazons3connector.proxies.AwsConfig AwsConfigParameter1;
-	private IMendixObject __S3BucketParameter1;
-	private amazons3connector.proxies.S3Bucket S3BucketParameter1;
-	private IMendixObject __S3SummaryObjectParameter1;
-	private amazons3connector.proxies.S3SummaryObject S3SummaryObjectParameter1;
-	private IMendixObject __S3FileDocumentParameter1;
-	private amazons3connector.proxies.S3FileDocument S3FileDocumentParameter1;
+	private IMendixObject __AwsConfigParam;
+	private amazons3connector.proxies.AwsConfig AwsConfigParam;
+	private IMendixObject __S3BucketParam;
+	private amazons3connector.proxies.S3Bucket S3BucketParam;
+	private IMendixObject __S3SummaryObjectParam;
+	private amazons3connector.proxies.S3SummaryObject S3SummaryObjectParam;
+	private IMendixObject __S3FileDocumentParam;
+	private amazons3connector.proxies.S3FileDocument S3FileDocumentParam;
 
-	public JAV_PutObject(IContext context, IMendixObject AwsConfigParameter1, IMendixObject S3BucketParameter1, IMendixObject S3SummaryObjectParameter1, IMendixObject S3FileDocumentParameter1)
+	public JAV_PutObject(IContext context, IMendixObject AwsConfigParam, IMendixObject S3BucketParam, IMendixObject S3SummaryObjectParam, IMendixObject S3FileDocumentParam)
 	{
 		super(context);
-		this.__AwsConfigParameter1 = AwsConfigParameter1;
-		this.__S3BucketParameter1 = S3BucketParameter1;
-		this.__S3SummaryObjectParameter1 = S3SummaryObjectParameter1;
-		this.__S3FileDocumentParameter1 = S3FileDocumentParameter1;
+		this.__AwsConfigParam = AwsConfigParam;
+		this.__S3BucketParam = S3BucketParam;
+		this.__S3SummaryObjectParam = S3SummaryObjectParam;
+		this.__S3FileDocumentParam = S3FileDocumentParam;
 	}
 
 	@Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
-		this.AwsConfigParameter1 = __AwsConfigParameter1 == null ? null : amazons3connector.proxies.AwsConfig.initialize(getContext(), __AwsConfigParameter1);
+		this.AwsConfigParam = __AwsConfigParam == null ? null : amazons3connector.proxies.AwsConfig.initialize(getContext(), __AwsConfigParam);
 
-		this.S3BucketParameter1 = __S3BucketParameter1 == null ? null : amazons3connector.proxies.S3Bucket.initialize(getContext(), __S3BucketParameter1);
+		this.S3BucketParam = __S3BucketParam == null ? null : amazons3connector.proxies.S3Bucket.initialize(getContext(), __S3BucketParam);
 
-		this.S3SummaryObjectParameter1 = __S3SummaryObjectParameter1 == null ? null : amazons3connector.proxies.S3SummaryObject.initialize(getContext(), __S3SummaryObjectParameter1);
+		this.S3SummaryObjectParam = __S3SummaryObjectParam == null ? null : amazons3connector.proxies.S3SummaryObject.initialize(getContext(), __S3SummaryObjectParam);
 
-		this.S3FileDocumentParameter1 = __S3FileDocumentParameter1 == null ? null : amazons3connector.proxies.S3FileDocument.initialize(getContext(), __S3FileDocumentParameter1);
+		this.S3FileDocumentParam = __S3FileDocumentParam == null ? null : amazons3connector.proxies.S3FileDocument.initialize(getContext(), __S3FileDocumentParam);
 
 		// BEGIN USER CODE
-		AmazonS3 s3client = AmazonHelper.GetS3Client(AwsConfigParameter1);
+		AmazonS3 s3client = AmazonHelper.GetS3Client(AwsConfigParam);
 		
-		InputStream input = Core.getFileDocumentContent(getContext(), S3FileDocumentParameter1.getMendixObject());
+		InputStream input = Core.getFileDocumentContent(getContext(), S3FileDocumentParam.getMendixObject());
 		
-		s3client.putObject(new PutObjectRequest(S3BucketParameter1.getName(), S3SummaryObjectParameter1.getKey(),
+		s3client.putObject(new PutObjectRequest(S3BucketParam.getName(), S3SummaryObjectParam.getKey(),
 				input, new ObjectMetadata()));
 		
 		return true;

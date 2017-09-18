@@ -21,22 +21,22 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 public class JAV_GetBuckets extends CustomJavaAction<java.util.List<IMendixObject>>
 {
-	private IMendixObject __AwsConfigParameter1;
-	private amazons3connector.proxies.AwsConfig AwsConfigParameter1;
+	private IMendixObject __AwsConfigParam;
+	private amazons3connector.proxies.AwsConfig AwsConfigParam;
 
-	public JAV_GetBuckets(IContext context, IMendixObject AwsConfigParameter1)
+	public JAV_GetBuckets(IContext context, IMendixObject AwsConfigParam)
 	{
 		super(context);
-		this.__AwsConfigParameter1 = AwsConfigParameter1;
+		this.__AwsConfigParam = AwsConfigParam;
 	}
 
 	@Override
 	public java.util.List<IMendixObject> executeAction() throws Exception
 	{
-		this.AwsConfigParameter1 = __AwsConfigParameter1 == null ? null : amazons3connector.proxies.AwsConfig.initialize(getContext(), __AwsConfigParameter1);
+		this.AwsConfigParam = __AwsConfigParam == null ? null : amazons3connector.proxies.AwsConfig.initialize(getContext(), __AwsConfigParam);
 
 		// BEGIN USER CODE
-		AmazonS3 s3client = AmazonHelper.GetS3Client(AwsConfigParameter1);
+		AmazonS3 s3client = AmazonHelper.GetS3Client(AwsConfigParam);
 		
 		List<Bucket> buckets = s3client.listBuckets();
 		List<IMendixObject> s3buckets = new ArrayList<IMendixObject>();
