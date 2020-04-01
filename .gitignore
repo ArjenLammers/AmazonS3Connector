@@ -9,3 +9,11 @@ test/theme/
 *.tmp
 *.lock
 .idea/
+/src/AmazonS3Connector/.classpath
+/src/AmazonS3Connector/.project
+/src/AmazonS3Connector/AmazonS3Connector.launch
+/src/AmazonS3Connector/AmazonS3Connector.mpr.bak
+/src/AmazonS3Connector/AmazonS3Connector.mpr.lock
+/src/AmazonS3Connector/src.launch
+/src/AmazonS3Connector/.settings
+/src/AmazonS3Connector/deployment
