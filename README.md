@@ -1,43 +1,29 @@
 # Amazon S3 Connector
 
-Provides access to Amazon S3 buckets and objects, including downloading and uploading objects.
-
-## Contributing
-
-For more information on contributing to this repository visit [Contributing to a GitHub repository](https://world.mendix.com/display/howto50/Contributing+to+a+GitHub+repository)!
+Provides access to Amazon S3 buckets and objects.
 
 ## Typical usage scenario
 
-Use the connector to integrate with S3 to interact with S3 objects in your application.
+File transfer between systems using S3.
+
+## Upgrade to v.4 instructions
+
+Remove aws-java-sdk- files from your userlib directory.
+Make backups and test!
 
 ## Using the connector
 
-To use the connector, use the microflows that allow you to list the buckets, list the objects, download objects, and upload a S3FileDocument.
+Attach the AfterStartup microflow to your startup logic.
+Attach the Administration snippet to your application.
+Configure your S3 account using AWS API credentials.
 
-Example flow:
-
-1. Configure AccessKey and SecretKey in the Config page.
-2. Integrate Buckets_Overview page to access objects by bucket.
+Use the explorer to explore what's there (if you have the proper rights in your API account).
+Use the connector actions to perform the actions required.
 
 Important Note: when running locally, the module will fail with a Java security error unless you disable the "emulate cloud security" option in your project settings. This module _does_ work on Mendix Cloud v4 without any additional modifications to the app or cloud node.
 
-## Finding Specific Objects
-
-Amazon S3 uses the Object's Key as the unique identifier. This means that if you want to keep a reference to a specific object, you should use the S3SummaryObject.Key attribute. The Key includes all prefixes, similar to a UNC path to a file.
-
 ## Dependencies
 
-This module provides the Amazon SDK for Java libraries. Those required are:
-
-* aws-java-sdk-1.9.39.jar
-* commons-logging-1.1.jar
-* httpclient-4.3.jar
-* httpcore-4.3.jar
-* jackson-annotations-2.3.0.jar
-* jackson-core-2.3.2.jar
-* jackson-databind-2.3.2.jar
-
-As of Mendix 7, these libraries are also required. Previously they were provided by the platform:
-
-* joda-time.2.8.1
-* org.apache.commons.commons-lang3.3.4.jar
+Depending on the Library Logging module.
+This module provides the Amazon SDK for Java libraries.
+All libraries are suffixed with AWSS3Connector.RequiredLib.
