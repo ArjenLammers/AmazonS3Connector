@@ -41,7 +41,7 @@ public class ListObjects extends CustomJavaAction<java.util.List<IMendixObject>>
 		this.maxObjects = maxObjects;
 	}
 
-	@Override
+	@java.lang.Override
 	public java.util.List<IMendixObject> executeAction() throws Exception
 	{
 		this.awsConfig = __awsConfig == null ? null : amazons3connector.proxies.AwsConfig.initialize(getContext(), __awsConfig);
@@ -70,7 +70,7 @@ public class ListObjects extends CustomJavaAction<java.util.List<IMendixObject>>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
+	@java.lang.Override
 	public java.lang.String toString()
 	{
 		return "ListObjects";

@@ -41,7 +41,7 @@ public class GetObject extends CustomJavaAction<IMendixObject>
 		this.fileDocumentType = fileDocumentType;
 	}
 
-	@Override
+	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
 		this.awsConfig = __awsConfig == null ? null : amazons3connector.proxies.AwsConfig.initialize(getContext(), __awsConfig);
@@ -69,7 +69,7 @@ public class GetObject extends CustomJavaAction<IMendixObject>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
+	@java.lang.Override
 	public java.lang.String toString()
 	{
 		return "GetObject";

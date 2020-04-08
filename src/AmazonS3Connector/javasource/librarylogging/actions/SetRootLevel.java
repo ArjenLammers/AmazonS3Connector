@@ -34,7 +34,7 @@ public class SetRootLevel extends CustomJavaAction<java.lang.Boolean>
 		this.logLevel = logLevel == null ? null : librarylogging.proxies.LogLevels.valueOf(logLevel);
 	}
 
-	@Override
+	@java.lang.Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
 		// BEGIN USER CODE
@@ -65,7 +65,7 @@ public class SetRootLevel extends CustomJavaAction<java.lang.Boolean>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
+	@java.lang.Override
 	public java.lang.String toString()
 	{
 		return "SetRootLevel";

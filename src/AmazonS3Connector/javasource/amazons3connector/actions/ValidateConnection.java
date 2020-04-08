@@ -31,7 +31,7 @@ public class ValidateConnection extends CustomJavaAction<java.lang.String>
 		this.__configuration = configuration;
 	}
 
-	@Override
+	@java.lang.Override
 	public java.lang.String executeAction() throws Exception
 	{
 		this.configuration = __configuration == null ? null : amazons3connector.proxies.AwsConfig.initialize(getContext(), __configuration);
@@ -46,7 +46,7 @@ public class ValidateConnection extends CustomJavaAction<java.lang.String>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
+	@java.lang.Override
 	public java.lang.String toString()
 	{
 		return "ValidateConnection";
