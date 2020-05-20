@@ -11,11 +11,13 @@ public class UserActionsRegistrar
     registrator.registerUserAction(amazons3connector.actions.DeleteObject.class);
     registrator.registerUserAction(amazons3connector.actions.FindMostRecentObjects.class);
     registrator.registerUserAction(amazons3connector.actions.GetObject.class);
+    registrator.registerUserAction(amazons3connector.actions.GetObjectAsText.class);
     registrator.registerUserAction(amazons3connector.actions.ListBuckets.class);
     registrator.registerUserAction(amazons3connector.actions.ListObjects.class);
     registrator.registerUserAction(amazons3connector.actions.ListPrefixes.class);
     registrator.registerUserAction(amazons3connector.actions.MoveObject.class);
     registrator.registerUserAction(amazons3connector.actions.PutObject.class);
+    registrator.registerUserAction(amazons3connector.actions.PutObjectAsText.class);
     registrator.registerUserAction(amazons3connector.actions.SyncRegions.class);
     registrator.registerUserAction(amazons3connector.actions.ValidateConnection.class);
     registrator.registerUserAction(librarylogging.actions.AddLibraryLogListener.class);

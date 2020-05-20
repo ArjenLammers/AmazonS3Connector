@@ -94,6 +94,20 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
+	public static void iVK_EditText(IContext context, amazons3connector.proxies.S3Object _s3Object, amazons3connector.proxies.Explorer _explorer)
+	{
+		try
+		{
+			Map<java.lang.String, Object> params = new HashMap<java.lang.String, Object>();
+			params.put("S3Object", _s3Object == null ? null : _s3Object.getMendixObject());
+			params.put("Explorer", _explorer == null ? null : _explorer.getMendixObject());
+			Core.execute(context, "AmazonS3Connector.IVK_EditText", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
 	public static void iVK_Explore(IContext context, amazons3connector.proxies.AwsConfig _awsConfig)
 	{
 		try
@@ -208,6 +222,19 @@ public class Microflows
 			Map<java.lang.String, Object> params = new HashMap<java.lang.String, Object>();
 			params.put("Explorer", _explorer == null ? null : _explorer.getMendixObject());
 			Core.execute(context, "AmazonS3Connector.IVK_RetrievePrefixes", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+	public static void iVK_SaveAsText(IContext context, amazons3connector.proxies.GetAsText _getAsText)
+	{
+		try
+		{
+			Map<java.lang.String, Object> params = new HashMap<java.lang.String, Object>();
+			params.put("GetAsText", _getAsText == null ? null : _getAsText.getMendixObject());
+			Core.execute(context, "AmazonS3Connector.IVK_SaveAsText", params);
 		}
 		catch (CoreException e)
 		{
