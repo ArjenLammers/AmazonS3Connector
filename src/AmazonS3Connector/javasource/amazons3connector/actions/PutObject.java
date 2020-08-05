@@ -9,6 +9,7 @@
 
 package amazons3connector.actions;
 
+import java.io.InputStream;
 import com.mendix.core.Core;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
@@ -55,11 +56,14 @@ public class PutObject extends CustomJavaAction<java.lang.Boolean>
 				.key(key)
 				.build();
 		
-		RequestBody body = RequestBody.fromInputStream(Core.getFileDocumentContent(getContext(), file.getMendixObject()), 
+		InputStream is = Core.getFileDocumentContent(getContext(), file.getMendixObject());
+		
+		RequestBody body = RequestBody.fromInputStream(is, 
 				file.getSize());
 		
 		client.putObject(req, body);
-
+		is.close();
+		
 		return true;
 		// END USER CODE
 	}
